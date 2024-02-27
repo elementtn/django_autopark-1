@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from .forms import RegistrationForm, DriverForm
@@ -5,8 +7,11 @@ from AutoparkProject.utils import calculate_age
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from AutoparkProject.settings import LOGIN_REDIRECT_URL
-from employees.models import Car
+from employees.models import Car 
+from drivers.models import CarDriver, Driver
 
+
+from django.views.decorators.csrf import csrf_exempt
 
 def register(request):
     if request.method == "POST":
@@ -69,19 +74,38 @@ def log_out(request):
 
 def select_car(request, pk=None):
     if request.method == "GET":
-        title = 'Choose a car'
+        title = 'Выберете машину'
         cars = Car.objects.filter(status=True)
-        context ={'title': title, 'cars': cars}
+        car_count = Car.objects.filter(status=True).count()
+        context ={'title': title, 'cars': cars, 'count': car_count}
     if pk is not None:
-        print(pk)
         car = Car.objects.get(pk=pk)
         car.status = False
         car.save()
+
+        driver = Driver.objects.get(user=request.user)
+        CarDriver.objects.create(car=car, driver=driver)
         return redirect("drivers:index")
 
     return render(request, 'drivers/select_car.html', context=context)
 
 
+@csrf_exempt
 def test_fetch(request):
-    car = request.POST.get('carId')
-    return JsonResponse(car)
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+        car_id = json_data.get('id')
+
+        return JsonResponse({'car_id': car_id})
+    
+
+def profile(request, pk):
+    driver = Driver.objects.get(pk=pk)
+    car_driver = CarDriver.objects.filter(driver=driver).first()
+    if car_driver is not None:
+        car = car_driver.car
+    else:
+        car = None    
+
+    context = {'driver': driver, 'car':car}
+    return render(redirect, 'drivers/profile.html', context=context)

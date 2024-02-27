@@ -11,20 +11,19 @@
       id: carId
     }
 
-    const csrftoken = Cockies.get('csrftoken')
 
-    let response = await fetch('/test_fetch/', {
+    let response = await fetch('/drivers/test_fetch/', {
       method: "POST", 
-      headers: {
-        "Content-Type": "application/json", "X-CSRFToken": csrftoken},
-        body: JSON.stringify({carId: carId})
-    }
-    );
-    
+      headers: {"Content-Type": "application/json", "X-CSRFToken": '{% csrf_token %}'},
+      body: JSON.stringify(car),
+      credentials: 'same-origin',
+    });
+    let result = await response.json();
   }
 </script>
 
-
+<div class="car-count">
+  Количество доступных машин: <span>{{count}}</span>
 
 <div class="cars">
     {% for car in cars %}
@@ -35,8 +34,8 @@
       <p>  Category is {{car.category}} </p>
         
       
-      <p><href="{% url 'drivers:select_car' pk=car.id %}"> CHOOSE </href></p>
-      <button onclick="selectCar('{{car.id}}')">CHOOSE</button>
+      <p><href="{% url 'drivers:select_car' pk=car.id %}"> Выбрать </href></p>
+      <button onclick="selectCar('{{car.id}}')"> Выбор JS</button>
     </div>
 
     {% endfor %}

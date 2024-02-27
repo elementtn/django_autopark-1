@@ -1,4 +1,4 @@
-from .views import register, register_done, index, log_in, log_out, select_car, test_fetch
+from .views import register, register_done, index, log_in, log_out, select_car, test_fetch, profile
 from django.urls import path
 
 app_name = 'drivers'
@@ -9,6 +9,7 @@ urlpatterns = [
     path('register-done/', register_done, name="register_done"),
     path('login/', log_in, name="login"),
     path('logout/', log_out, name="logout"),
+    path('profile/<int:pk>/' ,profile, name='profile'),
 
     # path('profile/', profile, name="profile"),
 
