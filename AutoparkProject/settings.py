@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-j6-27g=fw-!!(n*y=&+6nf!%q63s#d5ic$(dx1zqstg(1is7a='
+SECRET_KEY = 'django-insecure-@&_*^+8q1yai$b$%$(gi5@bc4@qg+@fcstjrz**lav080es_wg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drivers',
-    'users',
     'employees',
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -116,15 +117,18 @@ USE_TZ = True
 
 DATE_INPUT_FORMATS = ["%d-%m-%Y", "%d.%m.%Y"]
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = '/media/'
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-LOGIN_URL = "drivers:login"
-LOGIN_REDIRECT_URL = "drivers:index"
+LOGIN_URL = 'drivers:login'
+LOGIN_REDIRECT_URL = 'drivers:index'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

@@ -1,12 +1,11 @@
-{% extends 'drivers/base.html' %}
+{% extends "drivers/base.html" %}
 
 {% block content %}
-<h2>Пожалуйста, заполните форму регистрации</h2>
-<form method="post">
+<h2>Пожалуйста, заполните форму</h2>
+<form method='post'>
     {% csrf_token %}
     {{reg_form.as_p}}
     {{driver_form.as_p}}
-    <button type="submit">Зарегистрироваться</button>
+    <button type='submit'>Зарегистрироваться</button>
 </form>    
-
 {% endblock content %}

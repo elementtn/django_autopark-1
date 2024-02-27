@@ -1,0 +1,48 @@
+{% extends "drivers/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel='stylesheet' href='{% static "css/cars.css" %}' type='text/css'>
+
+
+<script>
+  async function selectCar(carId) {
+    let car = {
+      id: carId
+    }
+
+    const csrftoken = Cockies.get('csrftoken')
+
+    let response = await fetch('/test_fetch/', {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json", "X-CSRFToken": csrftoken},
+        body: JSON.stringify({carId: carId})
+    }
+    );
+    
+  }
+</script>
+
+
+
+<div class="cars">
+    {% for car in cars %}
+        <div class="car">
+      <h2>{{car.brand.name}} {{car.model}}</h2>
+      <p>  Color is {{car.color}} </p>
+      <p>  Year is {{car.year}} </p>
+      <p>  Category is {{car.category}} </p>
+        
+      
+      <p><href="{% url 'drivers:select_car' pk=car.id %}"> CHOOSE </href></p>
+      <button onclick="selectCar('{{car.id}}')">CHOOSE</button>
+    </div>
+
+    {% endfor %}
+    </div>
+
+
+{% endblock content %}
+
+

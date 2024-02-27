@@ -1,0 +1,31 @@
+.cars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 5%;
+
+}
+
+.car {
+    width: calc(25% - 10px);
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.car img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.car h2 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.car p {
+    font-size: 14px;
+    margin-top: 5px;
+}

@@ -1,11 +1,9 @@
-{% extends "driver/base.html" %}
+{% extends "drivers/base.html" %}
 {% block content %}
 <h2>Пожалуйста, авторизуйтесь</h2>
-
-<form method="post">
+<form method='post'>
     {% csrf_token %}
     {{form.as_p}}
-    <p><input type="submit" value="Войти"></p>
-</form> 
-
+    <p><input type='submit' value='Enter'></p>
+</form>    
 {% endblock content %}
