@@ -9,6 +9,7 @@ from django.contrib.auth import login, authenticate, logout
 from AutoparkProject.settings import LOGIN_REDIRECT_URL
 from employees.models import Car 
 from drivers.models import CarDriver, Driver
+from django.contrib.auth.decorators import login_required 
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -78,6 +79,17 @@ def select_car(request, pk=None):
         cars = Car.objects.filter(status=True)
         car_count = Car.objects.filter(status=True).count()
         context ={'title': title, 'cars': cars, 'count': car_count}
+        return render(request, 'drivers/select_car.html', context=context)
+
+
+    if request.method == "POST":
+        car_id = request.POST.get('car_id')
+        new_car = Car.objects.get(pk=car_id)
+        driver = Driver.objects.get(user=request.user)
+        if driver.cardriver_set.first() is not None:    
+            if driver.cardriver_set.first().car is not None:
+
+
     if pk is not None:
         car = Car.objects.get(pk=pk)
         car.status = False
@@ -87,7 +99,7 @@ def select_car(request, pk=None):
         CarDriver.objects.create(car=car, driver=driver)
         return redirect("drivers:index")
 
-    return render(request, 'drivers/select_car.html', context=context)
+    
 
 
 @csrf_exempt
@@ -98,7 +110,7 @@ def test_fetch(request):
 
         return JsonResponse({'car_id': car_id})
     
-
+@login_required
 def profile(request, pk):
     driver = Driver.objects.get(pk=pk)
     car_driver = CarDriver.objects.filter(driver=driver).first()
@@ -109,3 +121,21 @@ def profile(request, pk):
 
     context = {'driver': driver, 'car':car}
     return render(redirect, 'drivers/profile.html', context=context)
+
+
+ 
+def refuse_car(request):
+    if request.method == "GET":
+        return render(request, 'drivers/refuse_car.html')
+    
+    if request.method == "POST":
+        if 'refuse' in request.POST:
+            driver = Driver.objects.get(user=request.user)
+            driver.cardriver_set.first.car.status = False
+            driver.cardriver_set.first().delete()
+            return redirect("drivers:profile")
+
+
+
+        else:
+            return redirect("drivers:profile")

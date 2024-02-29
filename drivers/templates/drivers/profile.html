@@ -1,5 +1,33 @@
-{{driver.name}}
-{{driver.user.username}}
+{% extends 'drivers/base.html' %}
+{% block content %}
 
-{{car.brand.name}}
-{{car.model}}
+<h2> Имя - {{driver.name}}</h2>
+<h2> Фамилия - {{driver.lastname}}</h2>
+{% if driver.is_available %}</h2>
+    <h2> Ваш статус - Активен </h2>
+{% else %}
+    <h2> Ваш статус - не активен </h2>
+{% endif %}
+<hr>
+{% if driver.cardriver_set.first.car %}
+    <h2> Ваша машина: </h2>
+    <h3>{{car.brand.name}} {{car.model}} {{car.year}} года</h3>
+
+    <form method="get" action="{% url 'drivers:select_car' %}">
+        <input type="submit" value="Сменить машину">
+    </form>
+    <br>
+    <br>
+    </form method="get" action="{% url 'drivers:refuse_car' %}">
+   
+        <input type="submit" value="Отказаться от машины">
+    </form>
+
+    
+{% else %}
+<h2>За вами не закреплена машина!</h2>
+    <a href="{% url 'drivers:select_car' %}"> Выбрать машину </a>
+{% endif %}
+
+{% endblock content %}
+

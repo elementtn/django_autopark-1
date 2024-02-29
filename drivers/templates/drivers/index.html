@@ -2,6 +2,7 @@
 
 {% block menu %}
 <h1>Главная страница</h1>
-<p><a href="#"> MY PROFILE </a></p>
-<p><a href="{% url 'drivers:select_car' %}"> CHOSE A CAR </a></p>
+<p><a href="{% url 'drivers:profile' pk=request.user.id %}"> Мой профиль </a></p>
+<p><a href="#">Мои заказы </a></p>
+<p><a href="{% url 'drivers:select_car' %}"> Выбрать машину </a></p>
 {% endblock menu %}

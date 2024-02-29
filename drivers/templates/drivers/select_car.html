@@ -34,8 +34,11 @@
       <p>  Category is {{car.category}} </p>
         
       
-      <p><href="{% url 'drivers:select_car' pk=car.id %}"> Выбрать </href></p>
-      <button onclick="selectCar('{{car.id}}')"> Выбор JS</button>
+      <form method="post">
+        {% csrf_token %}
+        <input  name="car_id" type="hidden" value="{{car.id}}">
+        <input type="submit" value="Выбрать машину">
+      </form>
     </div>
 
     {% endfor %}
