@@ -4,8 +4,13 @@ from .forms import RegistrationForm, DriverForm
 from AutoparkProject.utils import calculate_age
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from AutoparkProject.settings import LOGIN_REDIRECT_URL
 from employees.models import Car
+import json
+from django.views.decorators.csrf import csrf_exempt
+from drivers.models import CarDriver, Driver
+
 
 
 def register(request):
@@ -67,21 +72,81 @@ def log_out(request):
     return redirect(url)
 
 
-def select_car(request, pk=None):
+
+@login_required
+def select_car(request):
+    
     if request.method == "GET":
         title = 'Choose a car'
         cars = Car.objects.filter(status=True)
-        context ={'title': title, 'cars': cars}
-    if pk is not None:
-        print(pk)
-        car = Car.objects.get(pk=pk)
-        car.status = False
-        car.save()
-        return redirect("drivers:index")
+        car_count = Car.objects.filter(status=True).count()
+        context ={'title': title, 'cars': cars, 'count': car_count}
+        return render(request, 'drivers/select_car.html', context=context)
 
-    return render(request, 'drivers/select_car.html', context=context)
+    if request.method == "POST":
+        car_id = request.POST.get('car_id')
+        # строчку выше написали с помощью ввода в консоль сначала request.POST, потом request.POST.get('car_id')
+
+        new_car = Car.objects.get(pk=car_id)
+        driver = Driver.objects.get(user=request.user)
+
+        if driver.cardriver_set.first() is not None:
+            if driver.cardriver_set.first().car is not None:
+                driver.cardriver_set.update(car=new_car)
+
+    
+    
+    # if pk is not None:
+    #     car = Car.objects.get(pk=pk)
+    #     car.status = False
+    #     car.save()
+        
+    #     driver = Driver.objects.get(user=request.user)
+    #     CarDriver.objects.create(car=car, driver=driver)
+        
+    #     return redirect("drivers:index")
+
+    
 
 
+
+
+@csrf_exempt
 def test_fetch(request):
-    car = request.POST.get('carId')
-    return JsonResponse(car)
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+        car_id = json_data.get('id')
+
+        return JsonResponse({'car_id': car_id})
+
+
+
+# инфа о водителе и закрепеленной за ним машине
+@login_required
+def profile(request, pk):
+    driver = Driver.objects.get(pk=pk)
+    car_driver = CarDriver.objects.filter(driver=driver).first()
+    if car_driver is not None:
+        car = car_driver.car
+    else:
+        car = None
+
+    context = {'driver': driver, 'car': car}
+    return render(request, 'drivers/profile.html', context=context)
+
+
+
+
+def refuse_car(request):
+    if request.method == "GET":
+        return render(request, 'drivers/refuse_car.html')
+
+    if request.method == "POST":
+        if 'refuse' in request.POST:
+            driver = Driver.objects.get(user=request.user)
+            driver.cardriver_set.first.car.status = False
+            driver.cardriver_set.first.delete()
+            return redirect("drivers:profile")
+
+    else:
+        return redirect("drivers:profile")

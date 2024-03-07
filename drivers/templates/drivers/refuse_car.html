@@ -1,0 +1,12 @@
+{% extends "drivers/base.html" %}
+{% block content %}
+
+<h1> Отказаться от машины? </h1>
+
+<form method='post'>
+    {% csrf_token %}
+    <button name='refuse' type='submit'> Отказаться от машины </button>
+    <button name='refuse' type='submit'> Отменить </button>
+</form>
+
+{% endblock content %}

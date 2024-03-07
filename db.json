@@ -1,0 +1,58 @@
+[
+{
+  "model": "employees.carbrand",
+  "pk": 1,
+  "fields": {
+    "name": "VW"
+  }
+},
+{
+  "model": "employees.carbrand",
+  "pk": 2,
+  "fields": {
+    "name": "BMV"
+  }
+},
+{
+  "model": "employees.car",
+  "pk": 1,
+  "fields": {
+    "brand": 1,
+    "model": "6",
+    "color": "white",
+    "power": 115,
+    "year": 2012,
+    "image": "",
+    "category": "econom",
+    "status": true
+  }
+},
+{
+  "model": "employees.car",
+  "pk": 2,
+  "fields": {
+    "brand": 2,
+    "model": "x3",
+    "color": "black",
+    "power": 200,
+    "year": 2020,
+    "image": "",
+    "category": "econom",
+    "status": true
+  }
+},
+{
+  "model": "employees.department",
+  "pk": 1,
+  "fields": {
+    "name": "HR"
+  }
+},
+{
+  "model": "employees.department",
+  "pk": 2,
+  "fields": {
+    "name": "Transport"
+  }
+}
+]
