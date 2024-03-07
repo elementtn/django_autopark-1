@@ -1,2 +1,125 @@
 [
+{
+  "model": "employers.carbrand",
+  "pk": 1,
+  "fields": {
+    "name": "BMW"
+  }
+},
+{
+  "model": "employers.carbrand",
+  "pk": 2,
+  "fields": {
+    "name": "MAZDA"
+  }
+},
+{
+  "model": "employers.carbrand",
+  "pk": 3,
+  "fields": {
+    "name": "HONDA"
+  }
+},
+{
+  "model": "employers.car",
+  "pk": 1,
+  "fields": {
+    "brand": 1,
+    "model": "3",
+    "color": "red",
+    "power": 200,
+    "year": 2023,
+    "image": "",
+    "category": "comfort+",
+    "status": true
+  }
+},
+{
+  "model": "employers.car",
+  "pk": 2,
+  "fields": {
+    "brand": 1,
+    "model": "5",
+    "color": "white",
+    "power": 250,
+    "year": 2023,
+    "image": "",
+    "category": "comfort",
+    "status": true
+  }
+},
+{
+  "model": "employers.car",
+  "pk": 3,
+  "fields": {
+    "brand": 2,
+    "model": "6",
+    "color": "yellow",
+    "power": 150,
+    "year": 2022,
+    "image": "",
+    "category": "econom",
+    "status": true
+  }
+},
+{
+  "model": "employers.department",
+  "pk": 1,
+  "fields": {
+    "name": "Отдел траспорта"
+  }
+},
+{
+  "model": "employers.department",
+  "pk": 2,
+  "fields": {
+    "name": "Отдел кадров"
+  }
+},
+{
+  "model": "employers.department",
+  "pk": 3,
+  "fields": {
+    "name": "Бухгалтерия"
+  }
+},
+{
+  "model": "employers.department",
+  "pk": 4,
+  "fields": {
+    "name": "Отдел по работе с клиентами"
+  }
+},
+{
+  "model": "employers.position",
+  "pk": 1,
+  "fields": {
+    "name": "Специалист",
+    "department": 1
+  }
+},
+{
+  "model": "employers.position",
+  "pk": 2,
+  "fields": {
+    "name": "Старший специалист",
+    "department": 1
+  }
+},
+{
+  "model": "employers.position",
+  "pk": 3,
+  "fields": {
+    "name": "Инспектор",
+    "department": 2
+  }
+},
+{
+  "model": "employers.position",
+  "pk": 4,
+  "fields": {
+    "name": "Руководитель",
+    "department": 2
+  }
+}
 ]

@@ -1,0 +1,46 @@
+{% extends "drivers/base.html" %}
+{% load static%}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cars.css' %}" type="text/css">
+<script>
+    async function selectCar(carId){
+        let car = {
+            id: carId,
+        };
+        let response = await fetch('/drivers/test_fetch/', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 'X-CSRFToken': '{% csrf_token %}'
+            },
+            body: JSON.stringify(car)
+            credential: 'same-origin',
+        });
+        let result = await response.json();
+       
+    }
+</script>
+<div class="car-count">
+    Колличество доступных машин: <span>{{count}}</span>
+<div class="cars">
+    {% for car in cars %}
+    <div class="car">
+        <h2> {{car.brand.name}} {{car.model}} </h2>
+        <p> Цвет - {{car.color}}</p>
+        <p> Год - {{car.year}}</p>
+        <p> Класс - {{car.category}}</p>
+        <form method="post">
+            {% csrf_token %}
+            <input name="car_id" type="hidden" value="{{car.id}}">
+            <input type="submit" value="Выбрать машину">
+        </form>
+
+        {% comment %} <a href="{% url 'drivers:select_car' pk=car.id %}" class="btn btn-lg">Выбрать</a> {% endcomment %}
+        
+        {% comment %} <button onclick="selectCar('{{car.id}}')">Выбор JS</button> {% endcomment %}
+    </div>   
+    {% endfor %}
+</div>
+
+
+{% endblock content %}
