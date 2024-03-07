@@ -13,6 +13,7 @@
     <hr>
     {% if driver.cardriver_set.first.car %}
         <h2>Ваш автомобиль:</h2>
+
         <h2>{{car.brand.name}}   {{car.model}}    {{car.year}} </h2>
 
         <form method="get" action="{% url 'drivers:select_car' %}">
@@ -24,7 +25,11 @@
         
             <input type="submit" value="Отказаться от машины">
         </form>
+        <br>
+
+
     {% else %}
+        <p> За вами не закреплена ни одна машина! </p>
         <a href="{% url 'drivers:select_car' %}">Выбрать машину</a>
 
     {% endif %}

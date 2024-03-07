@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .forms import RegistrationForm, DriverForm
 from AutoparkProject.utils import calculate_age
 from django.contrib.auth.forms import AuthenticationForm
@@ -117,7 +117,7 @@ def test_fetch(request):
         return JsonResponse({'car_id': car_id})
 @login_required
 def profile(request, pk):
-    driver = Driver.objects.get(pk=pk)
+    driver = get_object_or_404(Driver, pk=pk)
     car_driver = CarDriver.objects.filter(driver=driver).first()
     if car_driver is not None:
         car = car_driver.car
@@ -137,9 +137,13 @@ def refuse_car(request):
     if request.method == "POST":
         if 'refuse' in request.POST:
             driver = Driver.objects.get(user=request.user)
-            driver.cardriver_set.first().car.status = False
-            driver.cardriver_set.first().delete()
-            return redirect('drivers:index')
+            car_id =driver.cardriver_set.first().car.id
+            car = Car.objects.get(pk=car_id)
+            car.status = True
+            car.save()
+
+            driver.cardriver_set.first().delete
+            return redirect(to="drivers:profile", pk=request.user.pk)
 
         else:
-            return redirect('drivers:profile')
+            return redirect(to="drivers:profile", pk=request.user.pk)
