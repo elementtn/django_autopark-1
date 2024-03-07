@@ -11,6 +11,7 @@
       id: carId,
     };
 
+    const csrftoken = Cockies.get('csrftoken')
 
     let response = await fetch('/drivers/test_fetch/', {
       method: "POST", 
@@ -44,10 +45,10 @@
 
       <form method='post'>
         {% csrf_token %}
-        <input name='car_id' type='hidden' value="{{car.id}}"> 
-        <input type='submit' value="Выбрать машину"> 
+        <input name='car_id' type='hidden' value="{{car.id}}">
+        <input type='submit' value="Выбрать машину">
     </form>
-      
+
       {% comment %} <p><a href="{% url 'drivers:select_car' pk=car.id %}"> CHOOSE </a></p> {% endcomment %}
       {% comment %} <button onclick="selectCar('{{car.id}}')">CHOOSE</button> {% endcomment %}
     </div>

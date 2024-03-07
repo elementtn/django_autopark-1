@@ -75,7 +75,7 @@ def log_out(request):
 
 @login_required
 def select_car(request):
-    
+
     if request.method == "GET":
         title = 'Choose a car'
         cars = Car.objects.filter(status=True)
@@ -94,19 +94,19 @@ def select_car(request):
             if driver.cardriver_set.first().car is not None:
                 driver.cardriver_set.update(car=new_car)
 
-    
-    
+
+
     # if pk is not None:
     #     car = Car.objects.get(pk=pk)
     #     car.status = False
     #     car.save()
-        
+
     #     driver = Driver.objects.get(user=request.user)
     #     CarDriver.objects.create(car=car, driver=driver)
-        
+
     #     return redirect("drivers:index")
 
-    
+
 
 
 
